@@ -179,12 +179,22 @@ public class CoastalSeedFilterer {
                 && testMainShipwreckGen();
     }
 
+    public boolean testAndLocateStructures(long seed) {
+        setSeed(seed);
+        return testAndLocateStructures();
+    }
+
     public boolean testBiomes() {
         return testMainStructureBiomes()
                 && testAproxSpawnPoint()
                 && testStrongholdBiome()
                 && testOceanPercent()
                 && testExactSpawnPoint();
+    }
+
+    public boolean testBiomes(long seed) {
+        setSeed(seed);
+        return testBiomes();
     }
 
     public long getSeed() {

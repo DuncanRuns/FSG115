@@ -18,14 +18,11 @@ public class FSG115 {
 
         while (true) {
             long seed = random.nextLong();
-            filterer.setSeed(seed);
-
-            if (filterer.testAndLocateStructures()) {
+            if (filterer.testAndLocateStructures(seed)) {
                 SeedIterator seedIterator = WorldSeed.getSisterSeeds(seed);
                 System.out.print(",");
                 while (seedIterator.hasNext()) {
-                    filterer.setSeed(seedIterator.next());
-                    if (filterer.testBiomes()) {
+                    if (filterer.testBiomes(seedIterator.next())) {
                         System.out.println();
                         return filterer.getSeed();
                     }
