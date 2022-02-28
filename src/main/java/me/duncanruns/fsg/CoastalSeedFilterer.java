@@ -34,7 +34,7 @@ public class CoastalSeedFilterer {
 
     private long seed;
     private ChunkRand chunkRand;
-    private CPos villagePos, monumentPos, mainShipwreckPos, strongholdPos;
+    private CPos villagePos, monumentPos, mainShipwreckPos, strongholdPos, fortressPos;
     private int strongholdNum;
     private OverworldBiomeSource overworldBiomeSource;
     private BPos spawnPos;
@@ -60,6 +60,15 @@ public class CoastalSeedFilterer {
                 && Math.abs(villagePos.getX() - cPos.getX()) > 10
                 && Math.abs(villagePos.getZ() - cPos.getZ()) > 10) {
             monumentPos = cPos;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean testFortressS() {
+        CPos fPos = FORTRESS.getInRegion(seed, 0, 0, chunkRand);
+        if (fPos != null && fPos.getX() <= 5 && fPos.getZ() <= 5) {
+            fortressPos = fPos;
             return true;
         }
         return false;
@@ -164,6 +173,7 @@ public class CoastalSeedFilterer {
     public boolean testAndLocateStructures() {
         return testVillageS()
                 && testMonumentS()
+                && testFortressS()
                 && testStrongholdS()
                 && testMainShipwreckS()
                 && testMainShipwreckGen();
