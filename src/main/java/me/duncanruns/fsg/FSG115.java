@@ -23,7 +23,7 @@ public class FSG115 {
             if (filterer.testAndLocateStructures()) {
                 SeedIterator seedIterator = WorldSeed.getSisterSeeds(seed);
                 System.out.print(",");
-                for (int i = 0; i < 10000; i++) {
+                while (seedIterator.hasNext()) {
                     filterer.setSeed(seedIterator.next());
                     if (filterer.testBiomes()) {
                         System.out.println();
