@@ -52,6 +52,7 @@ public class CoastalSeedFilterer {
     }
 
     private boolean testMonumentS() {
+        // TODO: base off of exact 45deg angle between pos x and pos z to give 1k/1k aprox spawn and to give the ability to check before other things as this is a fast seed eliminator.
         CPos cPos = MONUMENT.getInRegion(seed, 0, 0, chunkRand);
         double d = villagePos.distanceTo(cPos, DistanceMetric.EUCLIDEAN_SQ);
         if (d < 351.5625 && d > 100
@@ -171,6 +172,7 @@ public class CoastalSeedFilterer {
     }
 
     public boolean testAndLocateStructures() {
+        // TODO: Check if putting monument and fortress earlier eliminates seeds faster.
         return testVillageS()
                 && testMonumentS()
                 && testFortressS()
