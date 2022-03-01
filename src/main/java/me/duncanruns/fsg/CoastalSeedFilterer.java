@@ -28,7 +28,7 @@ public class CoastalSeedFilterer {
     private static final Shipwreck SHIPWRECK = new Shipwreck(MCVERSION);
     private static final Fortress FORTRESS = new Fortress(MCVERSION);
     private static final List<String> GOOD_WRECKS = List.of("with_mast", "upsidedown_full", "upsidedown_backhalf", "sideways_full", "sideways_backhalf", "rightsideup_full", "rightsideup_backhalf", "with_mast_degraded", "upsidedown_full_degraded", "upsidedown_backhalf_degraded", "sideways_full_degraded", "sideways_backhalf_degraded", "rightsideup_full_degraded", "rightsideup_backhalf_degraded");
-    private static final List<Biome> GOOD_VILLAGE_BIOMES = List.of(Biomes.PLAINS, Biomes.SAVANNA);
+    private static final List<Biome> GOOD_VILLAGE_BIOMES = List.of(Biomes.PLAINS, Biomes.SAVANNA, Biomes.SNOWY_TUNDRA, Biomes.TAIGA);
     private static final SpawnPoint SPAWN_POINT = new SpawnPoint();
     private static final double MAX_ANGLE_DIFF = (Math.PI * 2) / 36;
     private static final double BASE_ANGLE = Math.atan2(1, 1);
