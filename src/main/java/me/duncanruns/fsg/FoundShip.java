@@ -2,7 +2,38 @@ package me.duncanruns.fsg;
 
 import kaptainwutax.mcutils.util.pos.CPos;
 
-public record FoundShip(CPos pos, int emeralds) {
+import java.util.Objects;
+
+public final class FoundShip {
+    private final CPos pos;
+    private final int emeralds;
+
+    FoundShip(CPos pos, int emeralds) {
+        this.pos = pos;
+        this.emeralds = emeralds;
+    }
+
+    public CPos pos() {
+        return pos;
+    }
+
+    public int emeralds() {
+        return emeralds;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        FoundShip that = (FoundShip) obj;
+        return Objects.equals(this.pos, that.pos) &&
+                this.emeralds == that.emeralds;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pos, emeralds);
+    }
 
     @Override
     public String toString() {

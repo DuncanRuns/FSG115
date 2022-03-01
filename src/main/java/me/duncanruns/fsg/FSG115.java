@@ -8,10 +8,11 @@ import java.util.Random;
 public class FSG115 {
 
     public static void main(String[] args) {
-        System.out.println(findSeed());
+        System.out.println("--------------------\nMinecraft 1.15.2 FSG by DuncanRuns\nRunning on Java " + System.getProperty("java.version") + "\n--------------------");
+        System.out.println(findSeed(true));
     }
 
-    public static Long findSeed() {
+    public static Long findSeed(boolean printProgress) {
 
         Random random = new Random();
         CoastalSeedFilterer filterer = new CoastalSeedFilterer();
@@ -20,10 +21,12 @@ public class FSG115 {
             long seed = random.nextLong();
             if (filterer.testAndLocateStructures(seed)) {
                 SeedIterator seedIterator = WorldSeed.getSisterSeeds(seed);
-                System.out.print(",");
+                if (printProgress)
+                    System.out.print(",");
                 while (seedIterator.hasNext()) {
                     if (filterer.testBiomes(seedIterator.next())) {
-                        System.out.println();
+                        if (printProgress)
+                            System.out.println("!");
                         return filterer.getSeed();
                     }
                 }
