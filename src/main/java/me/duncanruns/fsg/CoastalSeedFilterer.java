@@ -31,6 +31,7 @@ public class CoastalSeedFilterer {
     private static final List<Biome> GOOD_VILLAGE_BIOMES = List.of(Biomes.PLAINS, Biomes.SAVANNA);
     private static final SpawnPoint SPAWN_POINT = new SpawnPoint();
     private static final double MAX_ANGLE_DIFF = (Math.PI * 2) / 36;
+    private static final double BASE_ANGLE = Math.atan2(1, 1);
 
     private long seed;
     private ChunkRand chunkRand;
@@ -52,7 +53,6 @@ public class CoastalSeedFilterer {
     }
 
     private boolean testMonumentS() {
-        // TODO: base off of exact 45deg angle between pos x and pos z to give 1k/1k aprox spawn and to give the ability to check before other things as this is a fast seed eliminator.
         CPos cPos = MONUMENT.getInRegion(seed, 0, 0, chunkRand);
         double d = villagePos.distanceTo(cPos, DistanceMetric.EUCLIDEAN_SQ);
         if (d < 351.5625 && d > 100
@@ -79,9 +79,8 @@ public class CoastalSeedFilterer {
         Random random = new Random();
         random.setSeed(seed);
         double sh1Angle = random.nextDouble() * Math.PI * 2.0D;
-        double mAngle = Math.atan2(monumentPos.getZ(), monumentPos.getX());
 
-        if (AngleMathHelper.getAngleDifference(mAngle, sh1Angle) < MAX_ANGLE_DIFF) {
+        if (AngleMathHelper.getAngleDifference(BASE_ANGLE, sh1Angle) < MAX_ANGLE_DIFF) {
             double distance = STRONGHOLD.getDistance();
             double distanceRing = (4.0D * distance) + (random.nextDouble() - 0.5D) * distance * 2.5D;
             if (distanceRing * 16 < 1600) {
