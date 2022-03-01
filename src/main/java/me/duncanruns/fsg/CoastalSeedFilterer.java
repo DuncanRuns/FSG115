@@ -105,20 +105,23 @@ public class CoastalSeedFilterer {
     private boolean testMainShipwreckGen() {
         ShipwreckGenerator shipwreckGenerator = new ShipwreckGenerator(MCVERSION);
         shipwreckGenerator.generate(seed, Dimension.OVERWORLD, mainShipwreckPos.getX(), mainShipwreckPos.getZ());
-        int iron = 0;
-        int emeralds = 0;
-        for (ChestContent chestContent : SHIPWRECK.getLoot(seed, shipwreckGenerator, chunkRand, false)) {
-            for (ItemStack itemStack : chestContent.getItems()) {
-                if (itemStack.getItem().equals(Items.IRON_INGOT)) {
-                    iron += itemStack.getCount() * 9;
-                } else if (itemStack.getItem().equals(Items.IRON_NUGGET)) {
-                    iron += itemStack.getCount();
-                } else if (itemStack.getItem().equals(Items.EMERALD)) {
-                    emeralds += itemStack.getCount();
+        if (GOOD_WRECKS.contains(shipwreckGenerator.getType())) {
+            int iron = 0;
+            int emeralds = 0;
+            for (ChestContent chestContent : SHIPWRECK.getLoot(seed, shipwreckGenerator, chunkRand, false)) {
+                for (ItemStack itemStack : chestContent.getItems()) {
+                    if (itemStack.getItem().equals(Items.IRON_INGOT)) {
+                        iron += itemStack.getCount() * 9;
+                    } else if (itemStack.getItem().equals(Items.IRON_NUGGET)) {
+                        iron += itemStack.getCount();
+                    } else if (itemStack.getItem().equals(Items.EMERALD)) {
+                        emeralds += itemStack.getCount();
+                    }
                 }
             }
+            return emeralds >= 10 && iron >= 72;
         }
-        return emeralds >= 10 && iron >= 72;
+        return false;
     }
 
     private boolean testMainStructureBiomes() {
