@@ -128,6 +128,18 @@ public class CoastalSeedFilterer {
                 && SHIPWRECK.canSpawn(mainShipwreckPos, overworldBiomeSource);
     }
 
+    private boolean testVillageOceanAccess() {
+        BPos middle = villagePos.toBlockPos().add(-20, 0, -20);
+        for (int z = 0; z <= 1; z++) {
+            for (int x = 0; x <= 1; x++) {
+                if (overworldBiomeSource.getBiome(middle.add(x * 40, 0, z * 40)).getCategory().equals(Biome.Category.OCEAN)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private boolean testStrongholdBiome() {
         strongholdPos = STRONGHOLD.getStarts(overworldBiomeSource, strongholdNum, chunkRand)[strongholdNum - 1];
         if (strongholdPos.distanceTo(CPos.ZERO, DistanceMetric.EUCLIDEAN_SQ) < 10000) {
@@ -187,6 +199,7 @@ public class CoastalSeedFilterer {
 
     public boolean testBiomes() {
         return testMainStructureBiomes()
+                && testVillageOceanAccess()
                 && testAproxSpawnPoint()
                 && testStrongholdBiome()
                 && testOceanPercent()
