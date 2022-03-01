@@ -118,7 +118,7 @@ public class CoastalSeedFilterer {
                 }
             }
         }
-        return emeralds >= 10 && iron >= 7;
+        return emeralds >= 10 && iron >= 8;
     }
 
     private boolean testMainStructureBiomes() {
