@@ -17,6 +17,8 @@ import kaptainwutax.mcutils.util.pos.CPos;
 import kaptainwutax.mcutils.version.MCVersion;
 import kaptainwutax.terrainutils.terrain.OverworldTerrainGenerator;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -27,8 +29,8 @@ public class CoastalSeedFilterer {
     private static final Monument MONUMENT = new Monument(MCVERSION);
     private static final Shipwreck SHIPWRECK = new Shipwreck(MCVERSION);
     private static final Fortress FORTRESS = new Fortress(MCVERSION);
-    private static final List<String> GOOD_WRECKS = List.of("with_mast", "upsidedown_full", "upsidedown_backhalf", "sideways_full", "sideways_backhalf", "rightsideup_full", "rightsideup_backhalf", "with_mast_degraded", "upsidedown_full_degraded", "upsidedown_backhalf_degraded", "sideways_full_degraded", "sideways_backhalf_degraded", "rightsideup_full_degraded", "rightsideup_backhalf_degraded");
-    private static final List<Biome> GOOD_VILLAGE_BIOMES = List.of(Biomes.PLAINS, Biomes.SAVANNA, Biomes.SNOWY_TUNDRA, Biomes.TAIGA);
+    private static final List<String> GOOD_WRECKS = getGoodWrecks();
+    private static final List<Biome> GOOD_VILLAGE_BIOMES = getGoodVillageBiomes();
     private static final SpawnPoint SPAWN_POINT = new SpawnPoint();
     private static final double MAX_ANGLE_DIFF = (Math.PI * 2) / 36;
     private static final double BASE_ANGLE = Math.atan2(1, 1);
@@ -40,6 +42,35 @@ public class CoastalSeedFilterer {
     private OverworldBiomeSource overworldBiomeSource;
     private BPos spawnPos;
     //private List<FoundShip> shipwrecks;
+
+
+    private static List<String> getGoodWrecks() {
+        List<String> goodWrecks = new ArrayList<>();
+        goodWrecks.add("with_mast");
+        goodWrecks.add("upsidedown_full");
+        goodWrecks.add("upsidedown_backhalf");
+        goodWrecks.add("sideways_full");
+        goodWrecks.add("sideways_backhalf");
+        goodWrecks.add("rightsideup_full");
+        goodWrecks.add("rightsideup_backhalf");
+        goodWrecks.add("with_mast_degraded");
+        goodWrecks.add("upsidedown_full_degraded");
+        goodWrecks.add("upsidedown_backhalf_degraded");
+        goodWrecks.add("sideways_full_degraded");
+        goodWrecks.add("sideways_backhalf_degraded");
+        goodWrecks.add("rightsideup_full_degraded");
+        goodWrecks.add("rightsideup_backhalf_degraded");
+        return Collections.unmodifiableList(goodWrecks);
+    }
+
+    private static List<Biome> getGoodVillageBiomes() {
+        List<Biome> goodVillageBiomes = new ArrayList<>();
+        goodVillageBiomes.add(Biomes.PLAINS);
+        goodVillageBiomes.add(Biomes.SAVANNA);
+        goodVillageBiomes.add(Biomes.SNOWY_TUNDRA);
+        goodVillageBiomes.add(Biomes.TAIGA);
+        return Collections.unmodifiableList(goodVillageBiomes);
+    }
 
     private boolean testVillageS() {
 
