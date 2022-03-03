@@ -1,4 +1,4 @@
-package me.duncanruns.fsg;
+package me.duncanruns.fsg.filter;
 
 import kaptainwutax.biomeutils.biome.Biome;
 import kaptainwutax.biomeutils.biome.Biomes;
@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+// Class to hold information and perform actual logic to filter seeds.
 
 public class CoastalSeedFilterer {
     private static final MCVersion MCVERSION = MCVersion.v1_15_2;
@@ -217,7 +219,6 @@ public class CoastalSeedFilterer {
     }
 
     public boolean testAndLocateStructures() {
-        // TODO: Check if putting monument and fortress earlier eliminates seeds faster.
         return testVillageS()
                 && testMonumentS()
                 && testFortressS()

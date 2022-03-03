@@ -1,8 +1,11 @@
-package me.duncanruns.fsg;
+package me.duncanruns.fsg.filter;
 
 import kaptainwutax.mcutils.util.pos.CPos;
 
 import java.util.Objects;
+
+// Class to store information about a shipwreck's position and emerald count.
+// Unused as only one shipwreck is checked rather than multiple.
 
 public final class FoundShip {
     private final CPos pos;

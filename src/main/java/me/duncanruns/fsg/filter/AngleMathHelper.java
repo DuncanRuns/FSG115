@@ -1,4 +1,6 @@
-package me.duncanruns.fsg;
+package me.duncanruns.fsg.filter;
+
+// Small interface to abstract some concepts for my stupid brain.
 
 interface AngleMathHelper {
 
