@@ -47,7 +47,7 @@ public class FSGThread extends Thread {
         int structureChecks = 0;
 
         Random random = new Random(initialSeed);
-        CoastalSeedFilterer filterer = new CoastalSeedFilterer();
+        CoastalSeedFilterer filterer = new CoastalSeedFilterer(10);
 
         while (true) {
             structureChecks++;

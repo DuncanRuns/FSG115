@@ -36,14 +36,18 @@ public class CoastalSeedFilterer {
     private static final SpawnPoint SPAWN_POINT = new SpawnPoint();
     private static final double MAX_ANGLE_DIFF = (Math.PI * 2) / 36;
     private static final double BASE_ANGLE = Math.atan2(1, 1);
-
+    private final int minimumEmeralds;
     private long seed;
     private ChunkRand chunkRand;
     private CPos villagePos, monumentPos, mainShipwreckPos, strongholdPos, fortressPos;
     private int strongholdNum;
     private OverworldBiomeSource overworldBiomeSource;
-    private BPos spawnPos;
     //private List<FoundShip> shipwrecks;
+    private BPos spawnPos;
+
+    public CoastalSeedFilterer(int minimumEmeralds) {
+        this.minimumEmeralds = minimumEmeralds;
+    }
 
 
     private static List<String> getGoodWrecks() {
@@ -74,7 +78,7 @@ public class CoastalSeedFilterer {
         return Collections.unmodifiableList(goodVillageBiomes);
     }
 
-    private boolean testVillageS() {
+    public boolean testVillageS() {
 
         // Find a close enough village to 0,0
         CPos pos = VILLAGE.getInRegion(seed, 0, 0, chunkRand);
@@ -85,7 +89,7 @@ public class CoastalSeedFilterer {
         return false;
     }
 
-    private boolean testMonumentS() {
+    public boolean testMonumentS() {
         CPos cPos = MONUMENT.getInRegion(seed, 0, 0, chunkRand);
         double d = villagePos.distanceTo(cPos, DistanceMetric.EUCLIDEAN_SQ);
         if (d < 351.5625 && d > 100
@@ -99,7 +103,7 @@ public class CoastalSeedFilterer {
         return false;
     }
 
-    private boolean testFortressS() {
+    public boolean testFortressS() {
         CPos fPos = FORTRESS.getInRegion(seed, 0, 0, chunkRand);
         if (fPos != null && fPos.getX() <= 5 && fPos.getZ() <= 5) {
             fortressPos = fPos;
@@ -108,7 +112,7 @@ public class CoastalSeedFilterer {
         return false;
     }
 
-    private boolean testStrongholdS() {
+    public boolean testStrongholdS() {
         Random random = new Random();
         random.setSeed(seed);
         double sh1Angle = random.nextDouble() * Math.PI * 2.0D;
@@ -124,8 +128,7 @@ public class CoastalSeedFilterer {
         return false;
     }
 
-    private boolean testMainShipwreckS() {
-
+    public boolean testMainShipwreckS() {
         CPos middlePos = new CPos((monumentPos.getX() + villagePos.getX()) / 2, (monumentPos.getZ() + villagePos.getZ()) / 2);
         CPos pos = SHIPWRECK.getInRegion(seed, 0, 0, chunkRand);
         if (middlePos.distanceTo(pos, DistanceMetric.EUCLIDEAN_SQ) < 9.765625) {
@@ -135,7 +138,7 @@ public class CoastalSeedFilterer {
         return false;
     }
 
-    private boolean testMainShipwreckGen() {
+    public boolean testMainShipwreckGen(int minimumEmeralds, int minimumIron) {
         ShipwreckGenerator shipwreckGenerator = new ShipwreckGenerator(MCVERSION);
         shipwreckGenerator.generate(seed, Dimension.OVERWORLD, mainShipwreckPos.getX(), mainShipwreckPos.getZ());
         if (GOOD_WRECKS.contains(shipwreckGenerator.getType())) {
@@ -152,19 +155,19 @@ public class CoastalSeedFilterer {
                     }
                 }
             }
-            return emeralds >= 10 && iron >= 72;
+            return emeralds >= minimumEmeralds && iron >= minimumIron;
         }
         return false;
     }
 
-    private boolean testMainStructureBiomes() {
+    public boolean testMainStructureBiomes() {
         overworldBiomeSource = new OverworldBiomeSource(MCVERSION, seed);
         return GOOD_VILLAGE_BIOMES.contains(overworldBiomeSource.getBiome(villagePos.toBlockPos().add(9, 0, 9)))
                 && MONUMENT.canSpawn(monumentPos, overworldBiomeSource)
                 && SHIPWRECK.canSpawn(mainShipwreckPos, overworldBiomeSource);
     }
 
-    private boolean testVillageOceanAccess() {
+    public boolean testVillageOceanAccess() {
         BPos middle = villagePos.toBlockPos().add(-20, 0, -20);
         for (int z = 0; z <= 1; z++) {
             for (int x = 0; x <= 1; x++) {
@@ -176,7 +179,7 @@ public class CoastalSeedFilterer {
         return false;
     }
 
-    private boolean testStrongholdBiome() {
+    public boolean testStrongholdBiome() {
         strongholdPos = STRONGHOLD.getStarts(overworldBiomeSource, strongholdNum, chunkRand)[strongholdNum - 1];
         if (strongholdPos.distanceTo(CPos.ZERO, DistanceMetric.EUCLIDEAN_SQ) < 10000) {
             for (int z = 1; z >= -1; z -= 2) {
@@ -190,7 +193,7 @@ public class CoastalSeedFilterer {
         return false;
     }
 
-    private boolean testOceanPercent() {
+    public boolean testOceanPercent() {
         int startX = monumentPos.toBlockPos().getX();
         int startZ = monumentPos.toBlockPos().getZ();
         int endX = strongholdPos.toBlockPos().getX();
@@ -208,11 +211,11 @@ public class CoastalSeedFilterer {
         return oceans >= 7;
     }
 
-    private boolean testAproxSpawnPoint() {
+    public boolean testApproxSpawnPoint() {
         return villagePos.toBlockPos(64).distanceTo(SPAWN_POINT.getApproximateSpawnPoint(overworldBiomeSource), DistanceMetric.EUCLIDEAN_SQ) < 2500;
     }
 
-    private boolean testExactSpawnPoint() {
+    public boolean testExactSpawnPoint() {
 
         spawnPos = SPAWN_POINT.getSpawnPoint(new OverworldTerrainGenerator(overworldBiomeSource));
         return villagePos.toBlockPos(spawnPos.getY()).distanceTo(spawnPos, DistanceMetric.EUCLIDEAN_SQ) < 2500;
@@ -224,7 +227,7 @@ public class CoastalSeedFilterer {
                 && testFortressS()
                 && testStrongholdS()
                 && testMainShipwreckS()
-                && testMainShipwreckGen();
+                && testMainShipwreckGen(minimumEmeralds,72);
     }
 
     public boolean testAndLocateStructures(long seed) {
@@ -235,7 +238,7 @@ public class CoastalSeedFilterer {
     public boolean testBiomes() {
         return testMainStructureBiomes()
                 && testVillageOceanAccess()
-                && testAproxSpawnPoint()
+                && testApproxSpawnPoint()
                 && testStrongholdBiome()
                 && testOceanPercent()
                 && testExactSpawnPoint();
