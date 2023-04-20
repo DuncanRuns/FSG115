@@ -1,4 +1,4 @@
-package me.duncanruns.fsg.cryptography;
+package me.duncanruns.fsg115.cryptography;
 
 public class DRandInfo {
     public Integer round = null;

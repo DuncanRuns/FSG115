@@ -1,4 +1,4 @@
-package me.duncanruns.fsg.runner;
+package me.duncanruns.fsg115.runner;
 
 // Info class which holds all relevant info to make a token. Also makes the token.
 
@@ -16,6 +16,10 @@ public class FilterResult {
         this.structureChecks = structureChecks;
         this.sisterChecks = sisterChecks;
         this.round = round;
+    }
+
+    public long getStartTime() {
+        return startTime;
     }
 
     public long getWorldSeed() {

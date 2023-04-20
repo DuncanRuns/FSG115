@@ -1,9 +1,9 @@
-package me.duncanruns.fsg.runner;
+package me.duncanruns.fsg115.runner;
 
 import kaptainwutax.mcutils.rand.seed.WorldSeed;
 import kaptainwutax.mcutils.util.data.SeedIterator;
-import me.duncanruns.fsg.cryptography.DRandInfo;
-import me.duncanruns.fsg.filter.CoastalSeedFilterer;
+import me.duncanruns.fsg115.cryptography.DRandInfo;
+import me.duncanruns.fsg115.filter.CoastalSeedFilterer;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;

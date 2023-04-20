@@ -1,6 +1,6 @@
-package me.duncanruns.fsg;
+package me.duncanruns.fsg115;
 
-import me.duncanruns.fsg.filter.CoastalSeedFilterer;
+import me.duncanruns.fsg115.filter.CoastalSeedFilterer;
 
 import java.util.Random;
 

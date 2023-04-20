@@ -1,4 +1,4 @@
-package me.duncanruns.fsg.filter;
+package me.duncanruns.fsg115.filter;
 
 import kaptainwutax.biomeutils.biome.Biome;
 import kaptainwutax.biomeutils.biome.Biomes;

@@ -1,7 +1,7 @@
-package me.duncanruns.fsg.runner;
+package me.duncanruns.fsg115.runner;
 
-import me.duncanruns.fsg.cryptography.DRandInfo;
-import me.duncanruns.fsg.cryptography.DRandRequester;
+import me.duncanruns.fsg115.cryptography.DRandInfo;
+import me.duncanruns.fsg115.cryptography.DRandRequester;
 
 import java.io.File;
 import java.io.FileWriter;

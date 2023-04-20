@@ -1,4 +1,4 @@
-package me.duncanruns.fsg.filter;
+package me.duncanruns.fsg115.filter;
 
 // Small interface to abstract some concepts for my stupid brain.
 

@@ -1,4 +1,4 @@
-package me.duncanruns.fsg.cryptography;
+package me.duncanruns.fsg115.cryptography;
 
 import com.google.gson.Gson;
 import org.apache.http.client.HttpClient;
