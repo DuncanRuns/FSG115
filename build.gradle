@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'me.duncanruns.fsg'
-version '1.2.0'
+version '1.2.1'
 
 apply plugin: 'java'
 compileJava {
@@ -29,8 +29,11 @@ dependencies {
 jar {
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     manifest {
+        // Thanks to answers from this: https://stackoverflow.com/questions/33020069/how-to-get-version-attribute-from-a-gradle-build-to-be-included-in-runtime-swing
         attributes(
-                'Main-Class': 'me.duncanruns.fsg.runner.FSG115'
+                'Main-Class': 'me.duncanruns.fsg.runner.FSG115',
+                'Multi-Release': true,
+                'Implementation-Version': version
         )
     }
 

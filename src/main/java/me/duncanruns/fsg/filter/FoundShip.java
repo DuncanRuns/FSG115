@@ -25,17 +25,17 @@ public final class FoundShip {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(pos, emeralds);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
         FoundShip that = (FoundShip) obj;
         return Objects.equals(this.pos, that.pos) &&
                 this.emeralds == that.emeralds;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(pos, emeralds);
     }
 
     @Override

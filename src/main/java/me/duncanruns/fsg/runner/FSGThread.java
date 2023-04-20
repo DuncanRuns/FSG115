@@ -11,6 +11,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.Random;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 
 /*
  * An individual seed finding thread. Runs the main filter methods of CoastalSeedFilterer.
@@ -24,14 +26,16 @@ public class FSGThread extends Thread {
     private final long initialSeed;
     private final long startTime;
     private final DRandInfo dRandInfo;
-    private volatile FilterResult filterResult = null;
+    private final Consumer<FilterResult> resultConsumer;
+    private final BooleanSupplier continueSupplier;
 
-    public FSGThread(boolean printProgress, int threadNum, DRandInfo dRandInfo) throws NoSuchAlgorithmException {
+    public FSGThread(boolean printProgress, int threadNum, DRandInfo dRandInfo, Instant instant, Consumer<FilterResult> resultConsumer, BooleanSupplier continueSupplier) throws NoSuchAlgorithmException {
         this.dRandInfo = dRandInfo;
         this.printProgress = printProgress;
         this.threadNum = threadNum;
-        Instant instant = Instant.now();
         this.startTime = (instant.getEpochSecond() * (1_000_000_000)) + instant.getNano() + threadNum;
+        this.resultConsumer = resultConsumer;
+        this.continueSupplier = continueSupplier;
         String seedString = startTime + dRandInfo.randomness;
 
         // Java SHA256
@@ -42,42 +46,32 @@ public class FSGThread extends Thread {
         initialSeed = new BigInteger(hash).longValue();
     }
 
-    private FilterResult findSeed(boolean printProgress) {
+    public void run() {
+        super.run();
+        if (printProgress) System.out.println("Thread #" + (threadNum + 1) + " started");
 
         int structureChecks = 0;
 
         Random random = new Random(initialSeed);
         CoastalSeedFilterer filterer = new CoastalSeedFilterer(10);
 
-        while (true) {
+        while (continueSupplier.getAsBoolean()) {
             structureChecks++;
             long seed = random.nextLong();
             if (filterer.testAndLocateStructures(seed)) {
                 int sisterChecks = 0;
                 SeedIterator seedIterator = WorldSeed.getSisterSeeds(seed);
                 if (printProgress) System.out.print(",");
-                while (seedIterator.hasNext()) {
+                while (seedIterator.hasNext() && continueSupplier.getAsBoolean()) {
                     sisterChecks++;
                     if (filterer.testBiomes(seedIterator.next())) {
                         if (printProgress) System.out.println("!");
-                        return new FilterResult(filterer.getSeed(), startTime, structureChecks, sisterChecks, dRandInfo.round);
+                        resultConsumer.accept(new FilterResult(filterer.getSeed(), startTime, structureChecks, sisterChecks, dRandInfo.round));
+                        break;
                     }
                 }
                 if (printProgress) System.out.print(".");
             }
         }
-        //return null;
-    }
-
-    public void run() {
-        super.run();
-        if (printProgress) System.out.println("Thread #" + (threadNum + 1) + " started");
-        FilterResult filterResult = findSeed(printProgress);
-        this.filterResult = filterResult;
-        FSG115.foundSeed.set(true);
-    }
-
-    public FilterResult getFilterResult() {
-        return filterResult;
     }
 }

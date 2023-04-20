@@ -227,7 +227,7 @@ public class CoastalSeedFilterer {
                 && testFortressS()
                 && testStrongholdS()
                 && testMainShipwreckS()
-                && testMainShipwreckGen(minimumEmeralds,72);
+                && testMainShipwreckGen(minimumEmeralds, 72);
     }
 
     public boolean testAndLocateStructures(long seed) {

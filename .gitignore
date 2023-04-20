@@ -22,3 +22,6 @@ gradle-app.setting
 
 # Project Specific
 out.txt
+*.iml
+*.ipr
+*.iws
