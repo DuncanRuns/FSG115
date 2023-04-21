@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "fsg115",
+  "version": "1.2.1",
+  "name": "FSG115",
+  "description": "Small library to filter for 1.15 FSG seeds. This fabric.mod.json is needed to be included in the FSG115 Mod.",
+  "authors": [
+    "DuncanRuns"
+  ],
+  "license": "MIT",
+  "environment": "*"
+}
